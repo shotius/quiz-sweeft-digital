@@ -39,20 +39,37 @@ const Question = ({state, dispatch}) => {
         
         return array;
     }
-      
+
+    const handleRadioSelect = (e) => 
+        dispatch({ type: 'choose-answer', payload: e.target.value})
+    
+    const answerAndNext = () => 
+        dispatch({ type: 'next-question', payload: state.questionNum + 1})
+    
     return (
         <div>
-            <button onClick={() => dispatch({ type: 'next-question', payload: state.questionNum + 1})}>next</button>
             <div>
                 {/* Question goes here, to show special entities string needs to be converted to html obj */}
                 {decodeHtml(results[state.questionNum].question)}
             </div>
             <div>
                 {/* answers go here */}
-                {shuffledAnswers().map((ans, id) => (
-                    <li key={id}>{decodeHtml(ans)}</li>
+                {shuffledAnswers().map((answer, id) => (
+                    <div key={id}>
+                        <label>
+                            <input 
+                                type='radio'
+                                value={answer}
+                                name="answer"
+                                onChange={handleRadioSelect}
+                                
+                                />
+                            {answer}
+                        </label>
+                    </div>
                 ))}
             </div>
+            <button onClick={answerAndNext}>answer</button>
         </div>
     )
 }
