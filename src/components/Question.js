@@ -1,24 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const Question = ({state, dispatch}) => {
     const { results } = state.questions
 
+    // shuffle answers when quiz starts (first load)
+    useEffect(() => {
+        let { incorrect_answers } = results[state.questionNum]
+        let { correct_answer } = results[state.questionNum]
+        let answers = incorrect_answers.concat(correct_answer)
+
+        answers = shuffle(answers)
+        dispatch({ type: 'shuffle', payload: answers})
+
+    }, [state.questionNum, dispatch, results])
+
+    // function to decode special initials (&quot;...)
     function decodeHtml(html) {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
         return txt.value;
     }
 
-
-    const shuffledAnswers = () => {
-        let { incorrect_answers } = results[state.questionNum]
-        let { correct_answer } = results[state.questionNum]
-        let answers = incorrect_answers.concat(correct_answer)
-
-        answers = shuffle(answers)
-
-        return answers
-    }
 
     // shuffle all answers
     function shuffle(array) {
@@ -40,12 +42,27 @@ const Question = ({state, dispatch}) => {
         return array;
     }
 
-    const handleRadioSelect = (e) => 
+    // handle radio button selection
+    const handleRadioSelect = (e) => {
         dispatch({ type: 'choose-answer', payload: e.target.value})
+    }
     
-    const answerAndNext = () => 
+    // handle next question
+    const answerAndNext = () => {
+        // if selected answer is correct take one one point
+        if(state.selectedAnswer === results[state.questionNum].correct_answer) {
+            dispatch({ type: 'correct-answer', payload: state.correctAnswers + 1})
+        } 
+        // next question
         dispatch({ type: 'next-question', payload: state.questionNum + 1})
-    
+        // uncheck all buttons
+        dispatch({ type: 'choose-answer', payload: ''})
+        // shuffle answers of the next questions
+    }
+
+    // console.log("correct", results[state.questionNum].correct_answer)
+    // console.log('correct answers', state.correctAnswers)
+
     return (
         <div>
             <div>
@@ -54,17 +71,17 @@ const Question = ({state, dispatch}) => {
             </div>
             <div>
                 {/* answers go here */}
-                {shuffledAnswers().map((answer, id) => (
+                {state.shuffledAnswers.map((answer, id) => (
                     <div key={id}>
                         <label>
                             <input 
                                 type='radio'
                                 value={answer}
                                 name="answer"
+                                checked={state.selectedAnswer === answer}
                                 onChange={handleRadioSelect}
-                                
                                 />
-                            {answer}
+                            {decodeHtml(answer)}
                         </label>
                     </div>
                 ))}

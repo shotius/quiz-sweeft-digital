@@ -2,10 +2,12 @@ export const initialState  = {
     isStarted: false,
     category: '',
     difficulty: '',
-    questionNum: 0,
     selectedAnswer: '',
     error: '',
+    questionNum: 0,
+    correctAnswers: 0,
     questions: [],
+    shuffledAnswers: [],
     categories: []
   }
 
@@ -22,7 +24,8 @@ export function quizReducer(state, action) {
             return {
                 ...state,
                 isStarted: false,
-                questionNum: 0
+                questionNum: 0,
+                correctAnswers: 0
             };
         }
         case 'set-category': {
@@ -59,6 +62,18 @@ export function quizReducer(state, action) {
             return {
                 ...state,
                 questionNum: action.payload
+            }
+        }
+        case 'shuffle': {
+            return {
+                ...state,
+                shuffledAnswers: action.payload
+            }
+        }
+        case 'correct-answer': {
+            return {
+                ...state,
+                correctAnswers: action.payload
             }
         }
         case 'error': {

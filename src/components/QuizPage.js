@@ -8,14 +8,13 @@ const QuizPage = ({state, dispatch}) => {
     return (
         <div>
             {
-             state.questionNum === results.length - 1
+             state.questionNum === results.length
                 ? <EndPage state={state} dispatch={dispatch} />
                 : <Question state={state} dispatch={dispatch} />
             }
         </div>
     )
 }
-
 
 
 export default QuizPage
