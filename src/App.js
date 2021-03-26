@@ -1,5 +1,6 @@
 import React, { useReducer} from 'react'
 import StartPage from './components/StartPage';
+import QuizPage from './components/QuizPage'
 import { initialState, quizReducer } from './quizReducer'
 
 const App = () => {
@@ -11,8 +12,7 @@ const App = () => {
       <h1>quiz will start in 24 hours 14:10</h1>
       {
         isStarted 
-        ? <div><button onClick={() => dispatch({type: 'start_again'})}>start again</button></div>
-        // : <StartPage startQuiz={startQuiz} />
+        ? <QuizPage state={state} dispatch={dispatch} />
         : <StartPage state={state} dispatch={dispatch} />
       }
       

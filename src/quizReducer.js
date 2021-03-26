@@ -1,8 +1,10 @@
 export const initialState  = {
     isStarted: false,
-    questions: [],
     category: '',
     difficulty: '',
+    questionNum: 0,
+    questions: [],
+    categories: []
   }
 
 export function quizReducer(state, action) {
@@ -10,13 +12,15 @@ export function quizReducer(state, action) {
         case 'start': {
             return {
                 ...state,
-                isStarted: true
+                isStarted: true,
+                questinoNum: 0
             };
         }
         case 'start_again':{
             return {
                 ...state,
-                isStarted: false
+                isStarted: false,
+                questionNum: 0
             };
         }
         case 'set-category': {
@@ -35,6 +39,18 @@ export function quizReducer(state, action) {
             return {
                 ...state,
                 questions: action.payload
+            }
+        }
+        case 'set-categories': {
+            return {
+                ...state,
+                categories: action.payload
+            }
+        }
+        case 'next-question': {
+            return {
+                ...state,
+                questionNum: action.payload
             }
         }
         default: 
