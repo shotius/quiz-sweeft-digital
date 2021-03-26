@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import StartPage from './components/StartPage'
 
-function App() {
+const App = () => {
+  const [quizStarted, setQuizStarted] = useState(false)
+
+  const startQuiz = () => {
+    setQuizStarted(true)
+  }
+
+  const startAgain = () => {
+    setQuizStarted(false)
+  }
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>quiz will start in 24 hours 14:10</h1>
+      {
+        quizStarted 
+        ? <div><button onClick={startAgain}>start again</button></div>
+        : <StartPage startQuiz={startQuiz} />
+      }
+      
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
