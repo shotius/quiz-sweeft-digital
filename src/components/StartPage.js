@@ -1,40 +1,41 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import axios from 'axios'
 
-const StartPage = ({startQuiz}) => {
+const StartPage = ({state, dispatch}) => {
+  // varibles from reducer
+  const { category, difficulty, questions } = state
 
-  const [questions, setQuestions] = useState([])
-  const [category, setCategory] = useState('')
-  const [difficulty, setDifficulty] = useState('')
-
+  // api endpoint
+  let apiUrl = `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}`
 
   useEffect(() => {
     console.log(questions)
   }, [questions])
 
   
-  // fetching questions from API
-  const fetchQuestions = async (e) => {
+  // fetching questions from API and start quiz
+  const fetchQuestions = (e) => {
     e.preventDefault()
-    const {data} = await axios.get(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}`)
-    await setQuestions(data)
-    // this function will start quize (questions will appear)
-    startQuiz()
+    axios
+      .get(apiUrl)
+      .then(({ data }) => {
+        dispatch({ type: 'set-questions', payload: data})
+        dispatch({ type: 'start'})
+    })
   }
 
   // on change of category selector
-  const handleCategoryChange = (e) => setCategory(e.target.value)
+  const handleCategoryChange = (e) => dispatch({type: 'set-category', payload: e.target.value})
 
   // on change of defficulty selector
-  const handleDifficultyChange = (e) => setDifficulty(e.target.value)
-
+  const handleDifficultyChange = (e) => dispatch({type: 'set-difficulty', payload: e.target.value})
     return (
         <form onSubmit={fetchQuestions}>
         <label>
           select category
           <select className="form-control" onChange={handleCategoryChange}>
             <option value="any">Any Category</option>
-            <option value="9">General Knowledge</option>
+            <option value="9">General Knowldispatchedge</option>
             <option value="10">Entertainment: Books</option>
             <option value="11">Entertainment: Film</option>
             <option value="12">Entertainment: Music</option>
