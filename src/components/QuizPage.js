@@ -5,7 +5,6 @@ import Question from './Question'
 const QuizPage = ({state, dispatch}) => {    
     const { results } = state.questions
 
-    console.log(state.questionNum, results.length)
     return (
         <div>
             {

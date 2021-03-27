@@ -3,7 +3,7 @@ export const initialState  = {
     category: '',
     difficulty: '',
     selectedAnswer: '',
-    error: '',
+    error: null,
     questionNum: 0,
     correctAnswers: 0,
     questions: [],

@@ -56,43 +56,41 @@ const StartPage = ({state, dispatch}) => {
     <div className='container' style={{width: '20em', marginTop: '5em'}}>
       <div className='card'>
         <div className='card-body'>
-      <form onSubmit={fetchQuestions}>
-        <div>
-          {/* category selections */}
-          <label>
-              select category
-              <select 
-                className="form-control"
-                onChange={handleCategorySelect}
-                style={{width: '250px'}}>
-                <option value='any'>Any Category</option>
-                {
-                  listCategories()
-                }
-              </select>
-          </label>
+          <form onSubmit={fetchQuestions}>
+            <div>
+              {/* category selections */}
+              <label>
+                  select category
+                  <select 
+                    className="form-control"
+                    onChange={handleCategorySelect}
+                    style={{width: '250px'}}>
+                    <option value='any'>Any Category</option>
+                    {
+                      listCategories()
+                    }
+                  </select>
+              </label>
+            </div>
+            <div>
+              {/* difficulty selection */}
+              <label>
+                select difficulty
+                <select 
+                    className="form-control"
+                    onChange={handleDifficultySelect} 
+                    style={{width: '250px'}}>
+                  <option value="any">Any Difficulty</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </label>
+            </div>
+            <button type="submit" className='btn btn-primary'>start test</button>
+          </form>
         </div>
-        <div>
-          {/* difficulty selection */}
-          <label>
-            select difficulty
-            <select 
-                className="form-control"
-                onChange={handleDifficultySelect} 
-                style={{width: '250px'}}>
-              <option value="any">Any Difficulty</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </label>
-        </div>
-        <button type="submit" className='btn btn-primary'>start test</button>
-      </form>
-
       </div>
-      </div>
-
     </div>
   )
 }

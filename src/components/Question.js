@@ -49,14 +49,21 @@ const Question = ({state, dispatch}) => {
     
     // handle next question
     const answerAndNext = () => {
-        // if selected answer is correct you got a point
-        if(state.selectedAnswer === results[state.questionNum].correct_answer) {
-            dispatch({ type: 'correct-answer', payload: state.correctAnswers + 1})
-        } 
-        // next question
-        dispatch({ type: 'next-question', payload: state.questionNum + 1})
-        // uncheck all buttons
-        dispatch({ type: 'choose-answer', payload: ''})
+        // validation if answer is chosen
+        if (!state.selectedAnswer) {
+            dispatch({ type: 'error', payload: 'You have to choose answer'})
+        } else {
+            // if selected answer is correct you got a point
+            if(state.selectedAnswer === results[state.questionNum].correct_answer) {
+                dispatch({ type: 'correct-answer', payload: state.correctAnswers + 1})
+            } 
+            // next question
+            dispatch({ type: 'next-question', payload: state.questionNum + 1})
+            // uncheck all buttons
+            dispatch({ type: 'choose-answer', payload: ''})
+            // remove error
+            dispatch({ type: 'error', payload: null})
+        }
     }
     return (
         <>
@@ -67,22 +74,24 @@ const Question = ({state, dispatch}) => {
                 {state.questionNum + 1}. {decodeHtml(results[state.questionNum].question)}
             </div>
             <div>
-                <table class="table table-hover">
+            {state.error && <div className='error'>{state.error}</div>}
+                <table className="table table-hover">
                     <tbody>
                     {/* answers go here */}
                         {state.shuffledAnswers.map((answer, id) => (
                             <tr key={id}>
-                                <td style={{width: 20}}>
-                                    <input 
-                                        type='radio'
-                                        value={answer}
-                                        name="answer"
-                                        checked={state.selectedAnswer === answer}
-                                        onChange={handleRadioSelect}
-                                        />
-                                </td>
                                 <td>
-                                    {decodeHtml(answer)}
+                                    <label >
+                                        <input 
+                                            type='radio'
+                                            value={answer}
+                                            name="answer"
+                                            checked={state.selectedAnswer === answer}
+                                            onChange={handleRadioSelect}
+                                            // style={{marginRight: '20px'}}
+                                            />
+                                        {decodeHtml(answer)}
+                                    </label>
                                 </td>
                             </tr>
                     ))}

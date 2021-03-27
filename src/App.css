@@ -1,4 +1,21 @@
-select {
-    width:100%;
-  box-sizing:border-box;
+.result {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    text-align: center;
+}
+
+input {
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.fail, .error {
+    color: red;
+}
+
+.success {
+    color: green;
 }
