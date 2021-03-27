@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 
 const Question = ({state, dispatch}) => {
     const { results } = state.questions
+    const blueLineLength = (window.innerWidth/10) * (state.questionNum + 1)
 
-    // shuffle answers when quiz starts (first load)
+    // shuffle question answers on every next question
     useEffect(() => {
         let { incorrect_answers } = results[state.questionNum]
         let { correct_answer } = results[state.questionNum]
@@ -20,7 +21,6 @@ const Question = ({state, dispatch}) => {
         txt.innerHTML = html;
         return txt.value;
     }
-
 
     // shuffle all answers
     function shuffle(array) {
@@ -49,7 +49,7 @@ const Question = ({state, dispatch}) => {
     
     // handle next question
     const answerAndNext = () => {
-        // if selected answer is correct take one one point
+        // if selected answer is correct you got a point
         if(state.selectedAnswer === results[state.questionNum].correct_answer) {
             dispatch({ type: 'correct-answer', payload: state.correctAnswers + 1})
         } 
@@ -57,37 +57,41 @@ const Question = ({state, dispatch}) => {
         dispatch({ type: 'next-question', payload: state.questionNum + 1})
         // uncheck all buttons
         dispatch({ type: 'choose-answer', payload: ''})
-        // shuffle answers of the next questions
     }
-
-    // console.log("correct", results[state.questionNum].correct_answer)
-    // console.log('correct answers', state.correctAnswers)
-
     return (
-        <div>
-            <div>
+        <>
+        <div id="blue-top" style={{width: blueLineLength, height: '5px', background: 'blue'}}></div>
+        <div className="container qst-container" style={{width: '60em', marginTop: '3em'}}>
+            <div className='lead' style={{marginBottom: '10px'}}>
                 {/* Question goes here, to show special entities string needs to be converted to html obj */}
-                {decodeHtml(results[state.questionNum].question)}
+                {state.questionNum + 1}. {decodeHtml(results[state.questionNum].question)}
             </div>
             <div>
-                {/* answers go here */}
-                {state.shuffledAnswers.map((answer, id) => (
-                    <div key={id}>
-                        <label>
-                            <input 
-                                type='radio'
-                                value={answer}
-                                name="answer"
-                                checked={state.selectedAnswer === answer}
-                                onChange={handleRadioSelect}
-                                />
-                            {decodeHtml(answer)}
-                        </label>
-                    </div>
-                ))}
+                <table class="table table-hover">
+                    <tbody>
+                    {/* answers go here */}
+                        {state.shuffledAnswers.map((answer, id) => (
+                            <tr key={id}>
+                                <td style={{width: 20}}>
+                                    <input 
+                                        type='radio'
+                                        value={answer}
+                                        name="answer"
+                                        checked={state.selectedAnswer === answer}
+                                        onChange={handleRadioSelect}
+                                        />
+                                </td>
+                                <td>
+                                    {decodeHtml(answer)}
+                                </td>
+                            </tr>
+                    ))}
+                    </tbody>
+                </table>
             </div>
-            <button onClick={answerAndNext}>answer</button>
+            <button onClick={answerAndNext} className="btn btn-primary">answer</button>
         </div>
+    </>
     )
 }
 

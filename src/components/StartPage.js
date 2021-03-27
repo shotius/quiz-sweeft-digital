@@ -19,6 +19,7 @@ const StartPage = ({state, dispatch}) => {
   // fetching questions from API and start quiz
   const fetchQuestions = (e) => {
     e.preventDefault()
+    console.log('fetching')
     axios
       .get(questionsApi)
       .then(({ data }) => {
@@ -53,14 +54,18 @@ const StartPage = ({state, dispatch}) => {
 
   
   return (
+    <div className='container' style={{width: '20em', marginTop: '5em'}}>
+      <div className='card'>
+        <div className='card-body'>
       <form onSubmit={fetchQuestions}>
         <div>
           {/* category selections */}
           <label>
               select category
               <select 
-                className="form-control" 
-                onChange={handleCategorySelect}>
+                className="form-control"
+                onChange={handleCategorySelect}
+                style={{width: '250px'}}>
                 <option value='any'>Any Category</option>
                 {
                   listCategories()
@@ -73,8 +78,9 @@ const StartPage = ({state, dispatch}) => {
           <label>
             select difficulty
             <select 
-                className="form-control" 
-                onChange={handleDifficultySelect} >
+                className="form-control"
+                onChange={handleDifficultySelect} 
+                style={{width: '250px'}}>
               <option value="any">Any Difficulty</option>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
@@ -84,6 +90,11 @@ const StartPage = ({state, dispatch}) => {
         </div>
         <button type="submit">start test</button>
       </form>
+
+      </div>
+      </div>
+
+    </div>
   )
 }
 

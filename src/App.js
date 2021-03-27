@@ -9,7 +9,6 @@ const App = () => {
 
   return (
     <div>
-      <h1>quiz will start in 24 hours 14:10</h1>
       {
         isStarted 
         ? <QuizPage state={state} dispatch={dispatch} />
