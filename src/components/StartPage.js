@@ -19,7 +19,6 @@ const StartPage = ({state, dispatch}) => {
   // fetching questions from API and start quiz
   const fetchQuestions = (e) => {
     e.preventDefault()
-    console.log('fetching')
     axios
       .get(questionsApi)
       .then(({ data }) => {
@@ -88,7 +87,7 @@ const StartPage = ({state, dispatch}) => {
             </select>
           </label>
         </div>
-        <button type="submit">start test</button>
+        <button type="submit" className='btn btn-primary'>start test</button>
       </form>
 
       </div>
