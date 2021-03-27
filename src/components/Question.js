@@ -64,6 +64,12 @@ const Question = ({ state, dispatch }) => {
       dispatch({ type: 'error', payload: null });
     }
   };
+
+  const onClick = (e) => {
+      if (e.target.value){
+          dispatch({ type: 'choose-answer', payload: e.target.value})
+      }
+  }
   return (
     <>
       <div id="blue-top" style={{ width: blueLineLength, height: '5px', background: 'blue' }} />
@@ -80,7 +86,7 @@ const Question = ({ state, dispatch }) => {
             <tbody>
               {/* answers go here */}
               {state.shuffledAnswers.map((answer, id) => (
-                <tr key={id}>
+                <tr key={id} onClick={onClick}>
                   <td>
                     <label>
                         <input
