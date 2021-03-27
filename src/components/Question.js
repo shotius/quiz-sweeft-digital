@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
 
 const Question = ({ state, dispatch }) => {
-  const { results } = state.questions;
+  // questions list are kept here
+  const allQuestions = state.questions.results;
   const blueLineLength = (window.innerWidth / 10) * (state.questionNum + 1);
 
   // shuffle question answers on every next question
   useEffect(() => {
-    const { incorrect_answers } = results[state.questionNum];
-    const { correct_answer } = results[state.questionNum];
+    const { incorrect_answers } = allQuestions[state.questionNum];
+    const { correct_answer } = allQuestions[state.questionNum];
     let answers = incorrect_answers.concat(correct_answer);
 
     answers = shuffle(answers);
     dispatch({ type: 'shuffle', payload: answers });
-  }, [state.questionNum, dispatch, results]);
+  }, [state.questionNum, dispatch, allQuestions]);
 
   // function to decode special initials (&quot;...)
   function decodeHtml(html) {
@@ -43,23 +44,21 @@ const Question = ({ state, dispatch }) => {
 
   // handle radio button selection
   const handleRadioSelect = (e) => {
-    // if (e.target.value){
-    //     let payload = e.target.value
-    // } else {
-    //     let payload = e.target.querySelector('input').getAttribute('value')
-    // }
+    // if click is from radio button e.target.value
+    // else we get value from parent div element
     let payload = e.target.value ? e.target.value : e.target.querySelector('input').getAttribute('value')
+    // save chosen answer
     dispatch({ type: 'choose-answer', payload: payload})
   };
 
-  // handle next question
+  // handle next question click
   const answerAndNext = () => {
     // validation if answer is chosen
     if (!state.selectedAnswer) {
       dispatch({ type: 'error', payload: 'You have to choose answer' });
     } else {
       // if selected answer is correct you got a point
-      if (state.selectedAnswer === results[state.questionNum].correct_answer) {
+      if (state.selectedAnswer === allQuestions[state.questionNum].correct_answer) {
         dispatch({ type: 'correct-answer', payload: state.correctAnswers + 1 });
       }
       // next question
@@ -79,7 +78,7 @@ const Question = ({ state, dispatch }) => {
           {/* Question goes here, to show special entities string needs to be converted to html obj */}
           {state.questionNum + 1}
           .
-          {decodeHtml(results[state.questionNum].question)}
+          {decodeHtml(allQuestions[state.questionNum].question)}
         </div>
         <div>
           {state.error && <div className="error">{state.error}</div>}

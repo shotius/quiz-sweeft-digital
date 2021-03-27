@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 
 const StartPage = ({ state, dispatch }) => {
-  // varibles from reducer
+  // select varibles are destructured here
   const { category, difficulty } = state;
+
+  // links for api
   const questionsApi = `https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}`;
   const categoriesApi = 'https://opentdb.com/api_category.php';
 
@@ -51,6 +53,7 @@ const StartPage = ({ state, dispatch }) => {
     ))
   );
 
+  // start page is render here
   return (
     <div className="container" style={{ width: '20em', marginTop: '5em' }}>
       <div className="card">

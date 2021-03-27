@@ -3,15 +3,15 @@ import EndPage from './EndPage';
 import Question from './Question';
 
 const QuizPage = ({ state, dispatch }) => {
-  const { results } = state.questions;
+  const allQuestions = state.questions.results;
 
   return (
     <div>
-      {
-             state.questionNum === results.length
-               ? <EndPage state={state} dispatch={dispatch} />
-               : <Question state={state} dispatch={dispatch} />
-            }
+        {
+          state.questionNum === allQuestions.length
+            ? <EndPage state={state} dispatch={dispatch} />
+            : <Question state={state} dispatch={dispatch} />
+        }
     </div>
   );
 };
