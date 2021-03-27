@@ -43,7 +43,13 @@ const Question = ({ state, dispatch }) => {
 
   // handle radio button selection
   const handleRadioSelect = (e) => {
-    dispatch({ type: 'choose-answer', payload: e.target.value });
+    // if (e.target.value){
+    //     let payload = e.target.value
+    // } else {
+    //     let payload = e.target.querySelector('input').getAttribute('value')
+    // }
+    let payload = e.target.value ? e.target.value : e.target.querySelector('input').getAttribute('value')
+    dispatch({ type: 'choose-answer', payload: payload})
   };
 
   // handle next question
@@ -65,11 +71,6 @@ const Question = ({ state, dispatch }) => {
     }
   };
 
-  const onClick = (e) => {
-      if (e.target.value){
-          dispatch({ type: 'choose-answer', payload: e.target.value})
-      }
-  }
   return (
     <>
       <div id="blue-top" style={{ width: blueLineLength, height: '5px', background: 'blue' }} />
@@ -86,13 +87,14 @@ const Question = ({ state, dispatch }) => {
             <tbody>
               {/* answers go here */}
               {state.shuffledAnswers.map((answer, id) => (
-                <tr key={id} onClick={onClick}>
+                <tr key={id} onClick={handleRadioSelect}>
                   <td>
                     <label>
                         <input
                             type="radio"
                             value={answer}
                             name="answer"
+                            onClick={(e) => e.stopPropagation()}
                             checked={state.selectedAnswer === answer}
                             onChange={handleRadioSelect}
                           />
