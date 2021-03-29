@@ -6,7 +6,7 @@ const QuizPage = ({ state, dispatch }) => {
   const allQuestions = state.questions.results;
 
   if (allQuestions.length === 0 ) {
-    return <p>questions are loading...</p>
+    return <p>questions have not loaded... reload the page</p>
   }
 
   return (
