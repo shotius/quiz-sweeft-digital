@@ -55,7 +55,7 @@ const Question = ({ state, dispatch }) => {
   const answerAndNext = () => {
     // validation if answer is chosen
     if (!state.selectedAnswer) {
-      dispatch({ type: 'error', payload: 'You have to choose answer' });
+      dispatch({ type: 'error', payload: 'You have to choose an answer' });
     } else {
       // if selected answer is correct you got a point
       if (state.selectedAnswer === allQuestions[state.questionNum].correct_answer) {

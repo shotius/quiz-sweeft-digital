@@ -26,8 +26,12 @@ const StartPage = ({ state, dispatch }) => {
       .then(({ data }) => {
         dispatch({ type: 'set-questions', payload: data });
         dispatch({ type: 'start' });
+        dispatch({ type: 'error', payload: null})
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err)
+        dispatch({ type: 'error', payload: err.message})
+      });
   };
 
   // handles selecting category
@@ -56,6 +60,7 @@ const StartPage = ({ state, dispatch }) => {
   // start page is render here
   return (
     <div className="container" style={{ width: '20em', marginTop: '5em' }}>
+      {state.error && <div className="error">{state.error}</div>}
       <div className="card">
         <div className="card-body">
           <form onSubmit={fetchQuestions}>

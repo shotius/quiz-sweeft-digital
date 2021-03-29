@@ -5,6 +5,10 @@ import Question from './Question';
 const QuizPage = ({ state, dispatch }) => {
   const allQuestions = state.questions.results;
 
+  if (allQuestions.length === 0 ) {
+    return <p>questions are loading...</p>
+  }
+
   return (
     <div>
         {
